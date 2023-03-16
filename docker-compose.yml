@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+  frontend:
+    image: nginx:1.21.4
+    volumes:
+      - ./frontend/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./templates:/usr/share/nginx/html/static/
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+
+  app:
+    build: ./
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:8
+    volumes:
+      - db-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_DATABASE: lior
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s,
+      retries: 10
+
+volumes:
+  db-data:
+  
+networks:
+  chat-app-network:

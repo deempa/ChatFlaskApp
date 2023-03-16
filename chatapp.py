@@ -1,7 +1,26 @@
 from flask import Flask, redirect, url_for, render_template, request, send_file
 from datetime import datetime
+from flask_sqlalchemy import SQLAlchemy
+
 
 app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:''@db/flaskcodeloop'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+
+
+class messageInfo(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    date_time = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    username = db.Column(db.String(100), unique = True)
+    message = db.Column(db.String(100))
+    
+    def __init__(self, date_time, username, message):
+        self.date_time = date_time
+        self.username = username
+        self.message = message
 
 @app.route("/<room_id>")
 def index(room_id):
@@ -33,4 +52,5 @@ def get_full_chat_messages(room_id):
         return lines
     
 if __name__ == "__main__":
+    db.create_all()
     app.run(host="0.0.0.0")
