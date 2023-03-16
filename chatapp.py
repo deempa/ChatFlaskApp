@@ -1,4 +1,5 @@
 from flask import Flask, redirect, url_for, render_template, request
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -11,7 +12,14 @@ def add_message(rood_id):
     if request.method == "GET":
         pass
     else: # POST
-        pass
+        user_name = request.form["username"]
+        message = request.form["msg"]
+        
+
+def get_datetime():
+    now = datetime.now()
+    date_string = now.strftime("%d/%m/%Y %H:%M:%S")
+    return date_string
     
 
 if __name__ == "__main__":
