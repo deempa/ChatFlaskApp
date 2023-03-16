@@ -22,9 +22,11 @@ services:
     volumes:
       - db-data:/var/lib/mysql
       - "./db/scripts/init.sql:/docker-entrypoint-initdb.d/1.sql"
-    environment:
-      MYSQL_ROOT_PASSWORD: 12345
-      MYSQL_DATABASE: lior
+    # environment:
+    #   MYSQL_ROOT_PASSWORD: 12345
+    #   MYSQL_DATABASE: lior
+    env_file:
+      - env_file.env
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 20s
