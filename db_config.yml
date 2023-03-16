@@ -1,0 +1,6 @@
+database: 'mysql'
+username: 'root'
+password: '12345'
+host: 'db'
+port: 3306
+db_name: 'test_db'
