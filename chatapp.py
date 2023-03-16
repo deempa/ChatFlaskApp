@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route("/<room_id>")
 def index(room_id):
-    return render_template("index.html")
+    return render_template("index.html", room=room_id)
 
 @app.route("/api/chat/<room_id>", methods=["GET", "POST"])
 def chatroom(room_id):
